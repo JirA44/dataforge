@@ -26,3 +26,16 @@ curl -X POST http://localhost:8000/v1/lineage-evolution-dossiers -d '{"dataset_i
 
 ## Pour qui ?
 Devs, auditeurs, ops, chercheurs — qui ont besoin d'une preuve opposable, pas d'un verdict déclaratif.
+
+## Problèmes réglés (détaillés)
+- **Dataforge** → - Preuve / dossier / trace non opposable → résolu par dossier immuable et hash SHA-256
+- **Dataforge** → - Verdict déclaratif sans justification → le dossier expose obligations, fournisseurs et ratios
+- **Dataforge** → - Chaînage caché ou lacune invisible → serveur recharge et recalcule indépendamment du client
+- **Dataforge** → - Tiers qui ne peut pas relancer → le dossier est public et rejouable sans clé client
+
+## Exemples d'utilisation (scénarios réels)
+- **Pipeline ML : SHA-256 + provenance** → le dossier sert de preuve technique (pas d'autorité déclarative)
+- **Audit RGPD : fermeture provenance** → le dossier sert de preuve technique (pas d'autorité déclarative)
+- **Contrats données compatibles** → le dossier sert de preuve technique (pas d'autorité déclarative)
+
+
