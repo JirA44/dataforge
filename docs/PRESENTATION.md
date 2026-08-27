@@ -1,4 +1,4 @@
-# Dataforge — Présentation complète
+# DataForge — Présentation complète
 
 ## Présentation
 dataforge est un registre immuable, hashé (SHA-256), auditable et rejouable.
