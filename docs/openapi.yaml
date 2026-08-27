@@ -1,0 +1,1891 @@
+openapi: 3.1.0
+info:
+  title: DataForge API
+  description: Immutable dataset versions, hashed provenance, conservative computed
+    quality verdicts, deterministic drift, provenance closure, contract compatibility
+    and downstream impact reports, with append-only audit.
+  version: 1.0.7
+servers:
+- url: http://127.0.0.1:8010
+paths:
+  /health:
+    get:
+      tags:
+      - system
+      summary: Health
+      operationId: health_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Health Health Get
+  /info:
+    get:
+      tags:
+      - system
+      summary: Info
+      operationId: info_info_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Info Info Get
+  /v1/sources:
+    post:
+      tags:
+      - sources
+      summary: Create Source
+      operationId: create_source_v1_sources_post
+      parameters:
+      - name: X-Actor
+        in: header
+        required: false
+        schema:
+          type: string
+          default: api
+          title: X-Actor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SourceCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Source V1 Sources Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - sources
+      summary: List Sources
+      operationId: list_sources_v1_sources_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Sources V1 Sources Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/sources/{source_id}:
+    get:
+      tags:
+      - sources
+      summary: Get Source
+      operationId: get_source_v1_sources__source_id__get
+      parameters:
+      - name: source_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Source Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Source V1 Sources  Source Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/datasets:
+    post:
+      tags:
+      - datasets
+      summary: Create Dataset
+      operationId: create_dataset_v1_datasets_post
+      parameters:
+      - name: X-Actor
+        in: header
+        required: false
+        schema:
+          type: string
+          default: api
+          title: X-Actor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatasetCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Dataset V1 Datasets Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - datasets
+      summary: List Datasets
+      operationId: list_datasets_v1_datasets_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Datasets V1 Datasets Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/datasets/{dataset_id}:
+    get:
+      tags:
+      - datasets
+      summary: Get Dataset
+      operationId: get_dataset_v1_datasets__dataset_id__get
+      parameters:
+      - name: dataset_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dataset Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Dataset V1 Datasets  Dataset Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/datasets/{dataset_id}/versions:
+    post:
+      tags:
+      - versions
+      summary: Create Version
+      operationId: create_version_v1_datasets__dataset_id__versions_post
+      parameters:
+      - name: dataset_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dataset Id
+      - name: X-Actor
+        in: header
+        required: false
+        schema:
+          type: string
+          default: api
+          title: X-Actor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VersionCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Version V1 Datasets  Dataset Id  Versions Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - versions
+      summary: List Versions
+      operationId: list_versions_v1_datasets__dataset_id__versions_get
+      parameters:
+      - name: dataset_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dataset Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      - name: include_records
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Include Records
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Versions V1 Datasets  Dataset Id  Versions Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/versions/{version_id}:
+    get:
+      tags:
+      - versions
+      summary: Get Version
+      operationId: get_version_v1_versions__version_id__get
+      parameters:
+      - name: version_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Version Id
+      - name: include_records
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Include Records
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Version V1 Versions  Version Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/versions/{version_id}/provenance/verify:
+    get:
+      tags:
+      - provenance
+      summary: Verify Provenance
+      operationId: verify_provenance_v1_versions__version_id__provenance_verify_get
+      parameters:
+      - name: version_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Version Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Verify Provenance V1 Versions  Version Id  Provenance
+                  Verify Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/versions/{version_id}/quality:
+    get:
+      tags:
+      - quality
+      summary: Get Quality
+      operationId: get_quality_v1_versions__version_id__quality_get
+      parameters:
+      - name: version_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Version Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Quality V1 Versions  Version Id  Quality Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/versions/{version_id}/quality-checks:
+    post:
+      tags:
+      - quality
+      summary: Recheck Quality
+      operationId: recheck_quality_v1_versions__version_id__quality_checks_post
+      parameters:
+      - name: version_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Version Id
+      - name: X-Actor
+        in: header
+        required: false
+        schema:
+          type: string
+          default: api
+          title: X-Actor
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Recheck Quality V1 Versions  Version Id  Quality Checks
+                  Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/versions/{baseline_version_id}/drift-reports:
+    post:
+      tags:
+      - drift
+      summary: Create Drift Report
+      operationId: create_drift_report_v1_versions__baseline_version_id__drift_reports_post
+      parameters:
+      - name: baseline_version_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Baseline Version Id
+      - name: X-Actor
+        in: header
+        required: false
+        schema:
+          type: string
+          default: api
+          title: X-Actor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriftComparisonCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Drift Report V1 Versions  Baseline Version
+                  Id  Drift Reports Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/drift-reports/{report_id}:
+    get:
+      tags:
+      - drift
+      summary: Get Drift Report
+      operationId: get_drift_report_v1_drift_reports__report_id__get
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Report Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Drift Report V1 Drift Reports  Report Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/datasets/{dataset_id}/drift-reports:
+    get:
+      tags:
+      - drift
+      summary: List Drift Reports
+      operationId: list_drift_reports_v1_datasets__dataset_id__drift_reports_get
+      parameters:
+      - name: dataset_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dataset Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Drift Reports V1 Datasets  Dataset Id  Drift
+                  Reports Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/datasets/{dataset_id}/contracts:
+    post:
+      tags:
+      - contracts
+      summary: Create Data Contract
+      operationId: create_data_contract_v1_datasets__dataset_id__contracts_post
+      parameters:
+      - name: dataset_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dataset Id
+      - name: X-Actor
+        in: header
+        required: false
+        schema:
+          type: string
+          default: api
+          title: X-Actor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataContractCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Data Contract V1 Datasets  Dataset Id  Contracts
+                  Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - contracts
+      summary: List Data Contracts
+      operationId: list_data_contracts_v1_datasets__dataset_id__contracts_get
+      parameters:
+      - name: dataset_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dataset Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Data Contracts V1 Datasets  Dataset Id  Contracts
+                  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/contracts/{contract_id}:
+    get:
+      tags:
+      - contracts
+      summary: Get Data Contract
+      operationId: get_data_contract_v1_contracts__contract_id__get
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Contract Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Data Contract V1 Contracts  Contract Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/contracts/{contract_id}/reports:
+    post:
+      tags:
+      - contracts
+      summary: Create Contract Report
+      operationId: create_contract_report_v1_contracts__contract_id__reports_post
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Contract Id
+      - name: X-Actor
+        in: header
+        required: false
+        schema:
+          type: string
+          default: api
+          title: X-Actor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContractCheckCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Contract Report V1 Contracts  Contract Id  Reports
+                  Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/contract-reports/{report_id}:
+    get:
+      tags:
+      - contracts
+      summary: Get Contract Report
+      operationId: get_contract_report_v1_contract_reports__report_id__get
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Report Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Contract Report V1 Contract Reports  Report Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/datasets/{dataset_id}/contract-reports:
+    get:
+      tags:
+      - contracts
+      summary: List Contract Reports
+      operationId: list_contract_reports_v1_datasets__dataset_id__contract_reports_get
+      parameters:
+      - name: dataset_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dataset Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Contract Reports V1 Datasets  Dataset Id  Contract
+                  Reports Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/contract-compatibility-reports:
+    post:
+      tags:
+      - contracts
+      summary: Create Contract Compatibility Report
+      operationId: create_contract_compatibility_report_v1_contract_compatibility_reports_post
+      parameters:
+      - name: X-Actor
+        in: header
+        required: false
+        schema:
+          type: string
+          default: api
+          title: X-Actor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContractCompatibilityCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Contract Compatibility Report V1 Contract Compatibility
+                  Reports Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/contract-compatibility-reports/{report_id}:
+    get:
+      tags:
+      - contracts
+      summary: Get Contract Compatibility Report
+      operationId: get_contract_compatibility_report_v1_contract_compatibility_reports__report_id__get
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Report Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Contract Compatibility Report V1 Contract Compatibility
+                  Reports  Report Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/contracts/{baseline_contract_id}/compatibility-reports:
+    get:
+      tags:
+      - contracts
+      summary: List Contract Compatibility Reports
+      operationId: list_contract_compatibility_reports_v1_contracts__baseline_contract_id__compatibility_reports_get
+      parameters:
+      - name: baseline_contract_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Baseline Contract Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Contract Compatibility Reports V1 Contracts  Baseline
+                  Contract Id  Compatibility Reports Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/provenance-closure-reports:
+    post:
+      tags:
+      - provenance
+      summary: Create Provenance Closure Report
+      operationId: create_provenance_closure_report_v1_provenance_closure_reports_post
+      parameters:
+      - name: X-Actor
+        in: header
+        required: false
+        schema:
+          type: string
+          default: api
+          title: X-Actor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProvenanceClosureCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Provenance Closure Report V1 Provenance Closure
+                  Reports Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - provenance
+      summary: List Provenance Closure Reports
+      operationId: list_provenance_closure_reports_v1_provenance_closure_reports_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Provenance Closure Reports V1 Provenance Closure
+                  Reports Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/provenance-closure-reports/{report_id}:
+    get:
+      tags:
+      - provenance
+      summary: Get Provenance Closure Report
+      operationId: get_provenance_closure_report_v1_provenance_closure_reports__report_id__get
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Report Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Provenance Closure Report V1 Provenance Closure
+                  Reports  Report Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/provenance-impact-dossiers:
+    post:
+      tags:
+      - provenance
+      summary: Create Provenance Impact Dossier
+      operationId: create_provenance_impact_dossier_v1_provenance_impact_dossiers_post
+      parameters:
+      - name: X-Actor
+        in: header
+        required: false
+        schema:
+          type: string
+          default: api
+          title: X-Actor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProvenanceImpactDossierCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Provenance Impact Dossier V1 Provenance Impact
+                  Dossiers Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - provenance
+      summary: List Provenance Impact Dossiers
+      operationId: list_provenance_impact_dossiers_v1_provenance_impact_dossiers_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Provenance Impact Dossiers V1 Provenance Impact
+                  Dossiers Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/provenance-impact-dossiers/{dossier_id}:
+    get:
+      tags:
+      - provenance
+      summary: Get Provenance Impact Dossier
+      operationId: get_provenance_impact_dossier_v1_provenance_impact_dossiers__dossier_id__get
+      parameters:
+      - name: dossier_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dossier Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Provenance Impact Dossier V1 Provenance Impact
+                  Dossiers  Dossier Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/lineage-evolution-dossiers:
+    post:
+      tags:
+      - lineage
+      summary: Create Lineage Evolution Dossier
+      operationId: create_lineage_evolution_dossier_v1_lineage_evolution_dossiers_post
+      parameters:
+      - name: X-Actor
+        in: header
+        required: false
+        schema:
+          type: string
+          default: api
+          title: X-Actor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LineageEvolutionDossierCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Lineage Evolution Dossier V1 Lineage Evolution
+                  Dossiers Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - lineage
+      summary: List Lineage Evolution Dossiers
+      operationId: list_lineage_evolution_dossiers_v1_lineage_evolution_dossiers_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Lineage Evolution Dossiers V1 Lineage Evolution
+                  Dossiers Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/lineage-evolution-dossiers/{dossier_id}:
+    get:
+      tags:
+      - lineage
+      summary: Get Lineage Evolution Dossier
+      operationId: get_lineage_evolution_dossier_v1_lineage_evolution_dossiers__dossier_id__get
+      parameters:
+      - name: dossier_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dossier Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Lineage Evolution Dossier V1 Lineage Evolution
+                  Dossiers  Dossier Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/lineage-links:
+    post:
+      tags:
+      - lineage
+      summary: Create Lineage Link
+      operationId: create_lineage_link_v1_lineage_links_post
+      parameters:
+      - name: X-Actor
+        in: header
+        required: false
+        schema:
+          type: string
+          default: api
+          title: X-Actor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LineageLinkCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Lineage Link V1 Lineage Links Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - lineage
+      summary: List Lineage Links
+      operationId: list_lineage_links_v1_lineage_links_get
+      parameters:
+      - name: upstream_version_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Upstream Version Id
+      - name: downstream_version_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Downstream Version Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Lineage Links V1 Lineage Links Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/lineage-links/{link_id}:
+    get:
+      tags:
+      - lineage
+      summary: Get Lineage Link
+      operationId: get_lineage_link_v1_lineage_links__link_id__get
+      parameters:
+      - name: link_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Link Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Lineage Link V1 Lineage Links  Link Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/impact-reports:
+    post:
+      tags:
+      - lineage
+      summary: Create Impact Report
+      operationId: create_impact_report_v1_impact_reports_post
+      parameters:
+      - name: X-Actor
+        in: header
+        required: false
+        schema:
+          type: string
+          default: api
+          title: X-Actor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImpactReportCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Impact Report V1 Impact Reports Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/impact-reports/{report_id}:
+    get:
+      tags:
+      - lineage
+      summary: Get Impact Report
+      operationId: get_impact_report_v1_impact_reports__report_id__get
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Report Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Impact Report V1 Impact Reports  Report Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/versions/{changed_version_id}/impact-reports:
+    get:
+      tags:
+      - lineage
+      summary: List Impact Reports
+      operationId: list_impact_reports_v1_versions__changed_version_id__impact_reports_get
+      parameters:
+      - name: changed_version_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Changed Version Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Impact Reports V1 Versions  Changed Version Id  Impact
+                  Reports Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/audit:
+    get:
+      tags:
+      - audit
+      summary: List Audit
+      operationId: list_audit_v1_audit_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      - name: action
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Action
+      - name: resource_type
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Resource Type
+      - name: resource_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Resource Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Audit V1 Audit Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ContractCheckCreate:
+      properties:
+        version_id:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Version Id
+      additionalProperties: false
+      type: object
+      required:
+      - version_id
+      title: ContractCheckCreate
+    ContractCompatibilityCreate:
+      properties:
+        baseline_contract_id:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Baseline Contract Id
+        candidate_contract_id:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Candidate Contract Id
+      additionalProperties: false
+      type: object
+      required:
+      - baseline_contract_id
+      - candidate_contract_id
+      title: ContractCompatibilityCreate
+    ContractField:
+      properties:
+        types:
+          items:
+            type: string
+            enum:
+            - string
+            - integer
+            - number
+            - boolean
+            - object
+            - array
+          type: array
+          maxItems: 6
+          minItems: 1
+          title: Types
+        required:
+          type: boolean
+          title: Required
+          default: true
+        nullable:
+          type: boolean
+          title: Nullable
+          default: false
+        max_missing_rate:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Max Missing Rate
+          default: 0.0
+        unique:
+          type: boolean
+          title: Unique
+          default: false
+      additionalProperties: false
+      type: object
+      required:
+      - types
+      title: ContractField
+    DataContractCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Name
+        description:
+          anyOf:
+          - type: string
+            maxLength: 4000
+          - type: 'null'
+          title: Description
+        fields:
+          additionalProperties:
+            $ref: '#/components/schemas/ContractField'
+          type: object
+          maxProperties: 200
+          minProperties: 1
+          title: Fields
+        allow_extra:
+          type: boolean
+          title: Allow Extra
+          default: false
+        min_rows:
+          type: integer
+          maximum: 10000000.0
+          minimum: 0.0
+          title: Min Rows
+          default: 1
+        max_rows:
+          anyOf:
+          - type: integer
+            maximum: 10000000.0
+            minimum: 1.0
+          - type: 'null'
+          title: Max Rows
+        max_duplicate_rate:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Max Duplicate Rate
+          default: 0.0
+      additionalProperties: false
+      type: object
+      required:
+      - name
+      - fields
+      title: DataContractCreate
+    DatasetCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Name
+        description:
+          anyOf:
+          - type: string
+            maxLength: 4000
+          - type: 'null'
+          title: Description
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/DatasetSchema'
+          - type: 'null'
+      additionalProperties: false
+      type: object
+      required:
+      - name
+      title: DatasetCreate
+    DatasetSchema:
+      properties:
+        fields:
+          additionalProperties:
+            $ref: '#/components/schemas/FieldDefinition'
+          type: object
+          title: Fields
+        allow_extra:
+          type: boolean
+          title: Allow Extra
+          default: false
+      additionalProperties: false
+      type: object
+      title: DatasetSchema
+    DriftComparisonCreate:
+      properties:
+        candidate_version_id:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Candidate Version Id
+      additionalProperties: false
+      type: object
+      required:
+      - candidate_version_id
+      title: DriftComparisonCreate
+    FieldDefinition:
+      properties:
+        type:
+          type: string
+          enum:
+          - string
+          - integer
+          - number
+          - boolean
+          - object
+          - array
+          - 'null'
+          title: Type
+        required:
+          type: boolean
+          title: Required
+          default: true
+      additionalProperties: false
+      type: object
+      required:
+      - type
+      title: FieldDefinition
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ImpactReportCreate:
+      properties:
+        changed_version_id:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Changed Version Id
+        max_depth:
+          type: integer
+          maximum: 10.0
+          minimum: 1.0
+          title: Max Depth
+          default: 3
+      additionalProperties: false
+      type: object
+      required:
+      - changed_version_id
+      title: ImpactReportCreate
+    LineageEvolutionDossierCreate:
+      properties:
+        version_ids:
+          items:
+            type: string
+          type: array
+          maxItems: 100
+          minItems: 2
+          title: Version Ids
+      additionalProperties: false
+      type: object
+      required:
+      - version_ids
+      title: LineageEvolutionDossierCreate
+    LineageLinkCreate:
+      properties:
+        upstream_version_id:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Upstream Version Id
+        downstream_version_id:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Downstream Version Id
+        relation_type:
+          type: string
+          enum:
+          - DERIVED_FROM
+          - TRANSFORMED_FROM
+          - FILTERED_FROM
+          - AGGREGATED_FROM
+          - JOINED_FROM
+          - COPIED_FROM
+          title: Relation Type
+      additionalProperties: false
+      type: object
+      required:
+      - upstream_version_id
+      - downstream_version_id
+      - relation_type
+      title: LineageLinkCreate
+    ProvenanceClosureCreate:
+      properties:
+        version_ids:
+          items:
+            type: string
+          type: array
+          maxItems: 50
+          minItems: 1
+          title: Version Ids
+      additionalProperties: false
+      type: object
+      required:
+      - version_ids
+      title: ProvenanceClosureCreate
+    ProvenanceImpactDossierCreate:
+      properties:
+        version_ids:
+          items:
+            type: string
+          type: array
+          maxItems: 50
+          title: Version Ids
+        dataset_ids:
+          items:
+            type: string
+          type: array
+          maxItems: 50
+          title: Dataset Ids
+      additionalProperties: false
+      type: object
+      title: ProvenanceImpactDossierCreate
+    SourceCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Name
+        kind:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Kind
+        uri:
+          anyOf:
+          - type: string
+            maxLength: 2048
+          - type: 'null'
+          title: Uri
+        description:
+          anyOf:
+          - type: string
+            maxLength: 4000
+          - type: 'null'
+          title: Description
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+      additionalProperties: false
+      type: object
+      required:
+      - name
+      - kind
+      title: SourceCreate
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    VersionCreate:
+      properties:
+        source_id:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Source Id
+        records:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Records
+      additionalProperties: false
+      type: object
+      required:
+      - source_id
+      - records
+      title: VersionCreate
