@@ -1,3 +1,5 @@
+> **Présentation → [docs/PRESENTATION.md](docs/PRESENTATION.md)** — à quoi ça sert, cas d'usages, usages futurs.
+
 # DataForge V1.07
 
 DataForge est un registre de jeux de données auditable. Il enregistre des sources, des
@@ -514,3 +516,4 @@ l'adaptateur d'exécution PostgreSQL.
   elle ne remplace pas une validation sémantique du métier ou des consommateurs réels.
 - un dossier de fermeture décrit uniquement les objets persistés et les liens déclarés ;
   une dépendance externe non enregistrée demeure inconnue et n'est jamais inventée.
+
