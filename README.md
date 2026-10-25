@@ -1,3 +1,35 @@
+# DataForge V1.07
+
+## Français — présentation
+
+DataForge est un registre auditable de jeux de données. Il conserve les sources, les versions immuables, la provenance SHA-256, les contrôles qualité, les contrats de données et le lignage ; il produit aussi des rapports hashés.
+
+### À quoi ça sert, et pourquoi ?
+
+Il aide à savoir quelles données et quelles versions ont servi à une analyse, à détecter une rupture de contrat entre versions et à repérer une provenance ou une preuve manquante. Les empreintes établissent l’intégrité des contenus enregistrés ; elles ne prouvent pas que les données sources sont vraies.
+
+### Exemples
+
+- Enregistrer les versions d’un jeu de données utilisé dans un pipeline ML.
+- Comparer deux versions et voir les changements ou ruptures de compatibilité.
+- Fermer le lignage jusqu’aux sources persistées avant un audit.
+- Consulter des exemples d’API dans [docs/PRESENTATION.md](docs/PRESENTATION.md) et [docs/USAGE_EXAMPLES.md](docs/USAGE_EXAMPLES.md).
+
+## English — overview
+
+DataForge is an auditable dataset registry. It records sources, immutable versions, SHA-256 provenance, quality checks, data contracts and lineage, and can publish hashed reports.
+
+### What is it for, and why use it?
+
+It helps identify which data and versions supported an analysis, detect contract changes between versions, and surface missing provenance or evidence. Hashes establish the integrity of recorded content; they do not prove that source data is true.
+
+### Examples
+
+- Record versions of a dataset used in an ML pipeline.
+- Compare two versions to inspect changes and contract compatibility.
+- Trace lineage back to persisted sources before an audit.
+- See API examples in [docs/PRESENTATION.md](docs/PRESENTATION.md) and [docs/USAGE_EXAMPLES.md](docs/USAGE_EXAMPLES.md).
+
 > **Présentation → [docs/PRESENTATION.md](docs/PRESENTATION.md)** — à quoi ça sert, cas d'usages, usages futurs.\n\n# DataForge V1.07\n\n> **Présentation complète → [docs/PRESENTATION.md](docs/PRESENTATION.md)** — problèmes détaillés, scénarios réels, API exemples, possibilités futures.\n> [Cas d'utilisation](docs/USAGE_EXAMPLES.md) · [Contribution](CONTRIBUTING.md) · [Tests](tests/)\n\nDataForge est un registre de jeux de données auditable. Il enregistre des sources, des\ndatasets et des versions immuables, calcule leur provenance SHA-256 et exécute des\ncontrôles qualité conservateurs. Il compare deux versions immuables, versionne des\ncontrats de données stricts, compare leur compatibilité, relie les versions par un\nlignage immuable, ferme la provenance jusqu'aux sources persistées et publie des\nrapports hashés. Aucun verdict, diff, parcours ou preuve n'est accepté depuis le client.\n\n
 ---
 ## À quoi ça sert (direct)
